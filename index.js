@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import ejs from "ejs";
 import mongoose from "mongoose";
@@ -18,9 +20,9 @@ import expressSession from "express-session"; // Import express-session nếu c�
 import logoutController from "./controllers/logout.js"; // Import controller logout
 
 const app = new express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
-const MONGO_URI = "mongodb+srv://thoconditonglao123:2IO2UJw69mPOVrIC@cluster0.eugvthe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URI = process.env.MONGO_URI;
 
 // Thiết lập session phải đứng trước khi sử dụng các route liên quan đến session
 app.use(
@@ -50,6 +52,7 @@ mongoose
     console.error("Error connecting to MongoDB:", err);
   });
 
+// console.log("MONGO_URI:", process.env.MONGO_URI);
 global.loggedIn = null;
 
 app.use((req, res, next) => {
@@ -89,9 +92,9 @@ app.post(
   loginUserController
 );
 
-app.get("/auth/logout",logoutController); // Route đăng xuất người dùng
+app.get("/auth/logout", logoutController); // Route đăng xuất người dùng
 
-app.use((req, res) => res.render('notfound')); // Route xử lý trang không tìm thấy, dòng này phải đứng sau tất cả các route khác để đảm bảo nó chỉ được gọi khi không có route nào khớp với yêu cầu
+app.use((req, res) => res.render("notfound")); // Route xử lý trang không tìm thấy, dòng này phải đứng sau tất cả các route khác để đảm bảo nó chỉ được gọi khi không có route nào khớp với yêu cầu
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
