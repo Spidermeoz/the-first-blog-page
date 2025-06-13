@@ -47,6 +47,7 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
+    app.listen(PORT, () => console.log(`Server on ${PORT}`));
   })
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
@@ -96,6 +97,6 @@ app.get("/auth/logout", logoutController); // Route đăng xuất người dùng
 
 app.use((req, res) => res.render("notfound")); // Route xử lý trang không tìm thấy, dòng này phải đứng sau tất cả các route khác để đảm bảo nó chỉ được gọi khi không có route nào khớp với yêu cầu
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
